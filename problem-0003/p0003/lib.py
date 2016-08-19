@@ -1,16 +1,16 @@
 from collections import Counter
+from contextlib import suppress
 from functools import lru_cache
 from math import sqrt, ceil
 
 
 @lru_cache(maxsize=None)
 def is_prime(i):
-    factors = prime_factors(i)
-    try:
-        prime = next(factors)
+    if i < 2:
         return False
-    except StopIteration:
-        pass
+    with suppress(StopIteration):
+        next(prime_factors(i))
+        return False
     return True
 
 
