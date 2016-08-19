@@ -47,7 +47,7 @@ def prime_factors(i):
             else:
                 log.debug('Need to factorise {}'.format(remainder))
                 yield from prime_factors(remainder)
-                break
+            break
 
 
 def reduced_string(factors):
@@ -57,3 +57,7 @@ def reduced_string(factors):
         for f, p in sorted(c.items())
     )
     return reduced
+
+
+def largest_prime_factor(i):
+    return max(set(prime_factors(i)))
