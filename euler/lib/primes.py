@@ -35,20 +35,31 @@ def is_prime(i):
     return True
 
 
-def primes_to(limit, inclusive=False):
+def primes(terms=None, limit=None, inclusive=False):
     """
-    Generate primes below a given limit
+    Generate primes up to a given limit or term
 
-    Tests each number in the range 2 to i+1 for primality, yielding the number
-    if it is prime.
+    Tests each number from 2 to the limit for primality, yielding the number
+    if it is prime. If terms is used in place of limit it will stop after
+    generating that many terms. If neither is given it will generate primes
+    indefinitely.
     The implementation relies on the is_prime function to test for primality.
     Can be made inclusive of the limit.
     """
-    if inclusive:
+    i = 0
+    n = 2
+    if inclusive and limit is not None:
         limit += 1
-    for i in range(2, limit):
-        if is_prime(i):
-            yield i
+    while True:
+        if limit is not None and n >= limit:
+            break
+        elif terms is not None:
+            if i >= terms:
+                break
+        if is_prime(n):
+            yield n
+            i += 1
+        n += 1
 
 
 def prime_factors(i):
@@ -63,7 +74,7 @@ def prime_factors(i):
     factors.
     """
     max_factor = int(sqrt(i))
-    for prime in primes_to(max_factor, inclusive=True):
+    for prime in primes(limit=max_factor, inclusive=True):
         if is_factor(prime, i):
             yield prime
             remainder = i // prime

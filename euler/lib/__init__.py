@@ -34,17 +34,17 @@ def fibonacci(a=1, b=1, terms=None, limit=None, inclusive=False):
     If term and limit are not specified it will continue indefinitely.
     """
     i = 0
-    if inclusive:
+    if inclusive and limit is not None:
         limit += 1
     while True:
-        yield a
-        a, b = b, a+b
         if limit is not None and a >= limit:
             break
         elif terms is not None:
-            i += 1
             if i >= terms:
                 break
+        yield a
+        a, b = b, a+b
+        i += 1
 
 
 def is_palindrome(i):
