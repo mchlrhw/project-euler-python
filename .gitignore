@@ -1,10 +1,17 @@
+# Files
+*.egg
 *.swp
+*.zip
 
+# Directories
+build/
+dist/
 venv/
+*.egg-info/
 
+# Hidden directories
 .cache/
 .eggs/
-*.egg-info/
-dist/
 
+# Magic directories
 __pycache__/
