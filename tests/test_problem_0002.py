@@ -13,6 +13,34 @@ four million, find the sum of the even-valued terms.
 """
 
 
+def test_even():
+    expected_evens = [0, 2, 4, 6, 8, 10]
+
+    evens = list(even(range(11)))
+    assert evens == expected_evens
+
+
+class TestFibonacci:
+
+    def test_terms(self):
+        expected_seq = [0, 1, 1, 2, 3, 5]
+
+        seq = list(fibonacci(0, 1, terms=6))
+        assert seq == expected_seq
+
+    def test_limit(self):
+        expected_seq = [0, 1, 1, 2, 3]
+
+        seq = list(fibonacci(0, 1, limit=5))
+        assert seq == expected_seq
+
+    def test_inclusive_limit(self):
+        expected_seq = [0, 1, 1, 2, 3, 5]
+
+        seq = list(fibonacci(0, 1, limit=5, inclusive=True))
+        assert seq == expected_seq
+
+
 def test_example():
     expected_fib_list = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
     expected_even_list = [2, 8, 34]
