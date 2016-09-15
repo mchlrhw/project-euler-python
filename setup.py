@@ -1,5 +1,5 @@
-#import ez_setup
-#ez_setup.use_setuptools()
+# import ez_setup
+# ez_setup.use_setuptools()
 
 from setuptools import find_packages
 from setuptools import setup
@@ -12,6 +12,7 @@ setup(
     packages=find_packages(),
     setup_requires=[
         'pytest-runner',
+        'pytest-cov',
     ],
     tests_require=[
         'pytest',

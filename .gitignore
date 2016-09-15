@@ -1,4 +1,5 @@
 # Files
+.coverage
 *.egg
 *.swp
 *.zip

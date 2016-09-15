@@ -5,5 +5,5 @@ def main():
     return sum(even(fibonacci(1, 2, limit=4000000, inclusive=True)))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     print(main())
