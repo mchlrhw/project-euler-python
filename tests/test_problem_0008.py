@@ -1,4 +1,6 @@
+from euler.lib import product, sliding_window
 from euler.problems.problem_0008 import main as problem
+from euler.problems.problem_0008 import N
 
 
 PROBLEM_TEXT = """
@@ -29,6 +31,15 @@ product are 9 × 9 × 8 × 9 = 5832.
 Find the thirteen adjacent digits in the 1000-digit number that have the
 greatest product. What is the value of this product?
 """
+
+
+def test_example():
+    expected_max_product = 5832
+
+    max_product = max(
+        product(int(c) for c in w) for w in sliding_window(N, size=4)
+    )
+    assert max_product == expected_max_product
 
 
 def test_answer():
