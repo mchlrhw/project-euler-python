@@ -4,7 +4,7 @@ from collections import Counter
 from functools import reduce
 from itertools import combinations_with_replacement, islice
 
-from .primes import is_factor, is_prime, prime_factors
+from .primes import is_factor, is_prime, primes, prime_factors
 
 
 def digits(count):
