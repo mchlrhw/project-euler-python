@@ -3,6 +3,7 @@ import operator
 from collections import Counter
 from functools import reduce
 from itertools import combinations_with_replacement, islice
+from math import sqrt
 
 from .primes import is_factor, is_prime, primes, prime_factors
 
@@ -117,6 +118,21 @@ def products(seq):
     Generate the products of every pairwise combination of terms a sequence
     """
     return (a*b for a, b in combinations_with_replacement(seq, 2))
+
+
+def pythagorean_triplet(c):
+    """
+    Derive the pythagorean triplet belonging to a given hypotenuse
+
+    Returns an empty tuple if the hypotenuse does not belong to a pythagorean
+    triplet.
+    """
+    c_squared = c**2
+    for a in range(1, c):
+        b = sqrt(c_squared - (a**2))
+        if b.is_integer():
+            return (a, int(b), c)
+    return tuple()
 
 
 def sliding_window(seq, size=1):
