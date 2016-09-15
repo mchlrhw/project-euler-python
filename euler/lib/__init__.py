@@ -2,7 +2,7 @@ import operator
 
 from collections import Counter
 from functools import reduce
-from itertools import combinations_with_replacement
+from itertools import combinations_with_replacement, islice
 
 from .primes import *
 
@@ -117,6 +117,19 @@ def products(seq):
     Generate the products of every pairwise combination of terms a sequence
     """
     return (a*b for a, b in combinations_with_replacement(seq, 2))
+
+
+def sliding_window(seq, size=1):
+    """
+    Generate succesive windows of a given size across a sequence
+
+    The window will slide to the end of the sequence at which point it will
+    reduce in size to zero as it runs out of terms. If the window is bigger
+    than the sequence it will behave as if it is already at the end, i.e. it
+    will start to tail off straight away.
+    """
+    for i, _ in enumerate(seq):
+        yield islice(seq, i, i+size)
 
 
 def squares(seq):
