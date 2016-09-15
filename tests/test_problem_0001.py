@@ -10,6 +10,13 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 """
 
 
+def test_one_factor():
+    expected_multiples_list = [2, 4, 6, 8, 10]
+
+    multiples_list = list(multiples((2,), limit=10, inclusive=True))
+    assert multiples_list == expected_multiples_list
+
+
 def test_example():
     expected_multiples_list = [3, 5, 6, 9]
     expected_sum = 23
