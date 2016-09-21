@@ -1,11 +1,32 @@
 import operator
 
-from collections import Counter
+from collections import Counter, defaultdict, deque
 from functools import reduce
 from itertools import combinations_with_replacement, islice
 from math import sqrt
 
 from .primes import is_factor, is_prime, primes, prime_factors
+
+
+def columns(matrix):
+    """
+    Shorcut for forming a generator over the columns of a matrix
+    """
+    return (c for c in transpose(matrix))
+
+
+def diagonals(matrix, forward=True):
+    """
+    Iterate over the diagonals of a 2-D matrix
+    """
+    diags = defaultdict(deque)
+    for i, row in enumerate(reversed(matrix)):
+        if not forward:
+            row = reversed(row)
+        for j, n in enumerate(row):
+            diags[i+j].appendleft(n)
+    for _, diag in sorted(diags.items()):
+        yield diag
 
 
 def digits(count):
@@ -135,7 +156,14 @@ def pythagorean_triplet(c):
     return tuple()
 
 
-def sliding_window(seq, size=1):
+def rows(matrix):
+    """
+    Shortcut for forming a generator over the rows of a matrix
+    """
+    return (r for r in matrix)
+
+
+def sliding_window(seq, size=1, bounded=False):
     """
     Generate succesive windows of a given size across a sequence
 
@@ -143,8 +171,19 @@ def sliding_window(seq, size=1):
     reduce in size to zero as it runs out of terms. If the window is bigger
     than the sequence it will behave as if it is already at the end, i.e. it
     will start to tail off straight away.
+
+    If stricter behaviour is required the bounded keyword can be set to True,
+    in which case each window will contain exactly size number of terms; it
+    will not tail off and must be smaller than or equal to the size of the
+    sequence itself.
     """
+    if bounded:
+        seq = list(seq)
+        seq_len = len(seq)
     for i, _ in enumerate(seq):
+        window_limit = i + size
+        if bounded and window_limit > seq_len:
+            break
         yield islice(seq, i, i+size)
 
 
@@ -167,3 +206,10 @@ def sum_squares(seq):
     Find the sum of the squares of the terms of a sequence
     """
     return sum(squares(seq))
+
+
+def transpose(matrix):
+    """
+    Transpose a 2-D matrix
+    """
+    return zip(*matrix)
