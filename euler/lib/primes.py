@@ -10,9 +10,7 @@ def is_factor(factor, i):
 
     Implemented using modulo arithmetic
     """
-    if i % factor == 0:
-        return True
-    return False
+    return i % factor == 0
 
 
 @lru_cache(maxsize=None)
@@ -51,11 +49,10 @@ def primes(terms=None, limit=None, inclusive=False):
     if inclusive and limit is not None:
         limit += 1
     while True:
-        if limit is not None and n >= limit:
+        limit_reached = limit is not None and n >= limit
+        terms_reached = terms is not None and i >= terms
+        if limit_reached or terms_reached:
             break
-        elif terms is not None:
-            if i >= terms:
-                break
         if is_prime(n):
             yield n
             i += 1
@@ -75,14 +72,15 @@ def prime_factors(i):
     """
     max_factor = int(sqrt(i))
     for prime in primes(limit=max_factor, inclusive=True):
-        if is_factor(prime, i):
-            yield prime
-            remainder = i // prime
-            if is_prime(remainder):
-                yield remainder
-            else:
-                yield from prime_factors(remainder)
-            break
+        if not is_factor(prime, i):
+            continue
+        yield prime
+        remainder = i // prime
+        if is_prime(remainder):
+            yield remainder
+        else:
+            yield from prime_factors(remainder)
+        break
 
 
 def reduced_factors(i):

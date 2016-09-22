@@ -32,10 +32,7 @@ def digits(count):
     """
     Generate all of the numbers with the specified digit count
     """
-    return range(
-        int('1' + ('0' * (count - 1))),
-        int('1' + ('0' * count)),
-    )
+    return range(10**(count - 1), 10**count)
 
 
 def even(seq):
