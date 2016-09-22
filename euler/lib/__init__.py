@@ -25,8 +25,7 @@ def diagonals(matrix, forward=True):
             row = reversed(row)
         for j, n in enumerate(row):
             diags[i+j].appendleft(n)
-    for _, diag in sorted(diags.items()):
-        yield diag
+    return (diag for _, diag in sorted(diags.items()))
 
 
 def digits(count):
