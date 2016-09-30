@@ -5,7 +5,7 @@ from functools import reduce
 from itertools import combinations_with_replacement, islice
 from math import sqrt
 
-from .primes import is_factor, is_prime, primes, prime_factors
+from .primes import factors, is_factor, is_prime, prime_factors, primes
 
 
 def columns(matrix):
@@ -209,3 +209,22 @@ def transpose(matrix):
     Transpose a 2-D matrix
     """
     return zip(*matrix)
+
+
+def triangular_numbers(terms=None, limit=None, inclusive=False):
+    """
+    Generate the triangular numbers up to a given limit or term
+
+    Can be made inclusive of the limit.
+    """
+    if limit and inclusive:
+        limit += 1
+    i = n = 0
+    while True:
+        i += 1
+        n += i
+        limit_reached = limit is not None and n >= limit
+        terms_reached = terms is not None and i > terms
+        if limit_reached or terms_reached:
+            break
+        yield n

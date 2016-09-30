@@ -4,6 +4,21 @@ from itertools import count
 from math import sqrt
 
 
+def factors(i):
+    """
+    Generate all factors of an integer i
+    """
+    root_inclusive = int(sqrt(i)) + 1
+    for n in range(1, root_inclusive):
+        if not is_factor(n, i):
+            continue
+        yield n
+        remainder = i // n
+        if remainder == n:
+            continue
+        yield remainder
+
+
 def is_factor(factor, i):
     """
     Determine if a number is a factor of another number
