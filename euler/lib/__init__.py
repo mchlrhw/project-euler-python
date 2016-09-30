@@ -2,7 +2,7 @@ import operator
 
 from collections import Counter, defaultdict, deque
 from functools import reduce
-from itertools import combinations_with_replacement, islice
+from itertools import accumulate, combinations_with_replacement, count, islice
 from math import sqrt
 
 from .primes import factors, is_factor, is_prime, prime_factors, primes
@@ -219,10 +219,7 @@ def triangular_numbers(terms=None, limit=None, inclusive=False):
     """
     if limit and inclusive:
         limit += 1
-    i = n = 0
-    while True:
-        i += 1
-        n += i
+    for i, n in enumerate(accumulate(count(1)), 1):
         limit_reached = limit is not None and n >= limit
         terms_reached = terms is not None and i > terms
         if limit_reached or terms_reached:
