@@ -132,7 +132,7 @@ def product(seq):
 
 def products(seq):
     """
-    Generate the products of every pairwise combination of terms a sequence
+    Generate the products of every pairwise combination of terms of a sequence
     """
     return (a*b for a, b in combinations_with_replacement(seq, 2))
 
