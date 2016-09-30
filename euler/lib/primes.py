@@ -1,6 +1,6 @@
 from collections import Counter
 from contextlib import suppress
-from functools import lru_cache
+from itertools import count
 from math import sqrt
 
 
@@ -13,50 +13,69 @@ def is_factor(factor, i):
     return i % factor == 0
 
 
-@lru_cache(maxsize=None)
 def is_prime(i):
     """
     Determine if a positive integer i is prime
 
-    Short circuits 0 and 1 by always returning False; all integers greater
-    than 1 are determined to be prime if they have no prime factors.
+    Short circuits 0 and 1 (and any integer greater than 5 ending in anything
+    other than 1, 3, 7 or 9) by always returning False; all other integers
+    are determined to be prime if they have no prime factors.
     The implementation relies on the prime_factors generator, which raises
     a StopIteration exception if it is empty. If it doesn't raise this
     exception we can infer that the number is composite and is therefore
     not prime.
     """
-    if i < 2:
+    if i == 2 or i == 5:
+        return True
+    elif i < 2 or str(i)[-1] not in ('1', '3', '7', '9'):
         return False
-    with suppress(StopIteration):
-        next(prime_factors(i))
-        return False
-    return True
+    else:
+        with suppress(StopIteration):
+            next(prime_factors(i))
+            return False
+        return True
 
 
 def primes(terms=None, limit=None, inclusive=False):
     """
     Generate primes up to a given limit or term
 
-    Tests each number from 2 to the limit for primality, yielding the number
-    if it is prime. If terms is used in place of limit it will stop after
-    generating that many terms. If neither is given it will generate primes
-    indefinitely.
-    The implementation relies on the is_prime function to test for primality.
+    An implementation of the Sieve of Eratosthenes with an optimisation that
+    only considers odd candidates.
     Can be made inclusive of the limit.
     """
-    i = 0
-    n = 2
+    composites = {}
+
     if inclusive and limit is not None:
         limit += 1
-    while True:
-        limit_reached = limit is not None and n >= limit
-        terms_reached = terms is not None and i >= terms
-        if limit_reached or terms_reached:
-            break
-        if is_prime(n):
-            yield n
-            i += 1
-        n += 1
+
+    def limit_reached(x):
+        return limit is not None and x >= limit
+
+    def terms_reached(y):
+        return terms is not None and y >= terms
+
+    t = 0
+    if limit_reached(2) or terms_reached(t):
+        return
+    yield 2
+    t += 1
+    if terms_reached(t):
+        return
+
+    for i in count(start=3, step=2):
+        if limit_reached(i) or terms_reached(t):
+            return
+        factor = composites.pop(i, None)
+        if factor:
+            new_composite = i + factor
+            while new_composite in composites or not (new_composite & 1):
+                new_composite += factor
+            composites[new_composite] = factor
+        else:
+            t += 1
+            composites[i**2] = i
+            yield i
 
 
 def prime_factors(i):
