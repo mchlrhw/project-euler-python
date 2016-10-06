@@ -1,11 +1,56 @@
 import operator
 
-from collections import Counter, defaultdict, deque
+from collections import Counter, defaultdict, deque, OrderedDict
 from functools import reduce
 from itertools import accumulate, combinations_with_replacement, count, islice
 from math import sqrt
 
 from .primes import factors, is_factor, is_prime, prime_factors, primes
+
+
+
+COLLATZ_CACHE = {
+    1: (1, 1),
+}
+
+
+def _populate_collatz_cache(n):
+    subchain = OrderedDict()
+    while n not in COLLATZ_CACHE.keys():
+        nxt = (3*n + 1) if (n&1) else (n//2)
+        subchain[n] = n = nxt
+
+    base_ln = COLLATZ_CACHE[n][1]
+    subchain = {
+        n: (nxt, i+base_ln)
+        for i, (n, nxt) in enumerate(reversed(subchain.items()), start=1)
+    }
+    COLLATZ_CACHE.update(subchain)
+
+
+def collatz(n):
+    """
+    Generate the Collatz sequence for a given starting integer n
+    """
+    if n not in COLLATZ_CACHE:
+        _populate_collatz_cache(n)
+
+    while True:
+        yield n
+        if n == 1:
+            break
+        n, _ = COLLATZ_CACHE[n]
+
+
+def collatz_length(n):
+    """
+    Return the length of the Collatz chain for a given starting integer n
+    """
+    if n not in COLLATZ_CACHE:
+        _populate_collatz_cache(n)
+
+    _, ln = COLLATZ_CACHE[n]
+    return ln
 
 
 def columns(matrix):
