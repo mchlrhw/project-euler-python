@@ -1,4 +1,7 @@
-NUMBERS = """
+"""
+Work out the first ten digits of the sum of the following one-hundred
+50-digit numbers.
+
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
@@ -102,8 +105,14 @@ NUMBERS = """
 """
 
 
+NUMBERS = (
+    int(l.strip()) for i, l in enumerate(__doc__.splitlines())
+    if l and i >= 4
+)
+
+
 def main():
-    total = sum(int(n) for n in NUMBERS.splitlines() if n)
+    total = sum(NUMBERS)
     first_ten_digits = str(total)[:10]
     return int(first_ten_digits)
 
