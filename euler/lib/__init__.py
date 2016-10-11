@@ -1,12 +1,12 @@
 import operator
 
 from collections import Counter, defaultdict, deque, OrderedDict
+from contextlib import suppress
 from functools import reduce
 from itertools import accumulate, combinations_with_replacement, count, islice
 from math import sqrt
 
 from .primes import factors, is_factor, is_prime, prime_factors, primes
-
 
 
 COLLATZ_CACHE = {
@@ -164,6 +164,30 @@ def odd(seq):
     Pull out the odd terms of a sequence
     """
     return (n for n in seq if n % 2 != 0)
+
+
+def paths(n):
+    """
+    Calculate the paths through a lattice of size n*n
+    """
+    def get_moves(x, y):
+        if x < n:
+            yield (x+1, y)
+        if y < n:
+            yield (x, y+1)
+
+    def count_paths(x, y):
+        moves = get_moves(x, y)
+        with suppress(StopIteration):
+            move = next(moves)
+            yield from count_paths(*move)
+            move = next(moves)
+            yield from count_paths(*move)
+            yield 1
+
+    start = (0, 0)
+    path_count = 1 + sum(count_paths(*start))
+    return path_count
 
 
 def product(seq):
