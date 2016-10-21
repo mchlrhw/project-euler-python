@@ -11,8 +11,9 @@ setup(
     author='mrmrwat',
     packages=find_packages(),
     setup_requires=[
-        'pytest-runner',
+        'hypothesis',
         'pytest-cov',
+        'pytest-runner',
     ],
     tests_require=[
         'pytest',
