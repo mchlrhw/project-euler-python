@@ -190,6 +190,13 @@ def paths(n):
     return path_count
 
 
+def power_digit_sum(power, base=2):
+    """
+    Calculate the sum of the digits given by raising base to a certain power
+    """
+    return sum(int(d) for d in str(base**power))
+
+
 def product(seq):
     """
     Calculate the product of a sequence
