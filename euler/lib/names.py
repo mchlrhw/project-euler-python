@@ -119,7 +119,7 @@ def int_to_english(integer):
 
         group_val = int(group)
         for subpower, digit in enumerate(reversed(group)):
-            if subpower == 1 and group_val > 20 and group_val % 10:
+            if subpower == 1 and (group_val % 100) > 20 and group_val % 10:
                 ten_sep = '-'
             else:
                 ten_sep = ''
