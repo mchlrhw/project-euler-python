@@ -1,8 +1,9 @@
+import pytest
 import hypothesis.strategies as st
 
 from hypothesis import assume, example, given
 
-from euler.lib.names import int_to_english
+from euler.lib.names import HugeInt, int_to_english, MAX_INT, MIN_INT
 
 
 def test_zero():
@@ -19,7 +20,52 @@ def test_minus_zero():
     assert name == 'ZERO'
 
 
-@given(integer=st.integers(max_value=-1))
+@pytest.mark.parametrize(
+    'integer, expected_name',
+    [
+        (11, 'ELEVEN'),
+        (12, 'TWELVE'),
+        (13, 'THIRTEEN'),
+        (14, 'FORTEEN'),
+        (15, 'FIFTEEN'),
+        (16, 'SIXTEEN'),
+        (17, 'SEVENTEEN'),
+        (18, 'EIGHTEEN'),
+        (19, 'NINETEEN'),
+    ],
+)
+def test_teens(integer, expected_name):
+    name = int_to_english(integer)
+
+    assert name == expected_name
+
+
+@pytest.mark.parametrize(
+    'integer, expected_name',
+    [
+        (10, 'TEN'),
+        (20, 'TWENTY'),
+        (30, 'THIRTY'),
+        (40, 'FORTY'),
+        (50, 'FIFTY'),
+        (60, 'SIXTY'),
+        (70, 'SEVENTY'),
+        (80, 'EIGHTY'),
+        (90, 'NINETY'),
+    ],
+)
+def test_tys(integer, expected_name):
+    name = int_to_english(integer)
+
+    assert name == expected_name
+
+
+@given(
+    integer=st.integers(
+        min_value=MIN_INT,
+        max_value=-1,
+    )
+)
 def test_minus(integer):
     name = int_to_english(integer)
 
@@ -60,3 +106,28 @@ def test_and(integer_a, integer_b):
     assert first == name_a
     assert sep == ' AND '
     assert last == name_b
+
+
+@given(integer=st.integers(min_value=MIN_INT, max_value=MAX_INT))
+def test_manageable_int(integer):
+    name = int_to_english(integer)
+
+    assert name != ''
+
+
+@given(integer=st.integers(min_value=MAX_INT+1))
+def test_huge_int(integer):
+    with pytest.raises(HugeInt):
+        int_to_english(integer)
+
+
+@given(
+    st.one_of(
+        st.complex_numbers(),
+        st.floats(),
+        st.text(),
+    )
+)
+def test_invalid_input(not_an_integer):
+    with pytest.raises(RuntimeError):
+        int_to_english(not_an_integer)
