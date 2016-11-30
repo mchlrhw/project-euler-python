@@ -41,8 +41,11 @@ POWERS = {
     60: 'NOVEMDECILLION',
 }
 
+MAX_INT = (10 ** (max(POWERS)+3)) - 1
+MIN_INT = -MAX_INT
 
-class HugeNumber(Exception): pass
+
+class HugeInt(Exception): pass
 
 
 def digit_groups(number):
@@ -60,7 +63,7 @@ def get_power_name(power):
     try:
         power_name = POWERS[power]
     except KeyError:
-        raise HugeNumber('This module does not support such huge ints')
+        raise HugeInt('This module does not support such huge ints')
     return power_name
 
 
