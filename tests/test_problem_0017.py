@@ -3,7 +3,8 @@ import hypothesis.strategies as st
 
 from hypothesis import assume, example, given
 
-from euler.lib.names import HugeInt, int_to_english, MAX_INT, MIN_INT
+from euler.lib.names import HugeInt, int_to_english
+from euler.lib.names import letter_count, MAX_INT, MIN_INT
 
 
 def test_zero():
@@ -131,3 +132,17 @@ def test_huge_int(integer):
 def test_invalid_input(not_an_integer):
     with pytest.raises(RuntimeError):
         int_to_english(not_an_integer)
+
+
+@pytest.mark.parametrize(
+    'integer, expected_count',
+    [
+        (342, 23),
+        (115, 20),
+    ],
+)
+def test_example(integer, expected_count):
+    name = int_to_english(integer)
+    count = letter_count(name)
+
+    assert count == expected_count
