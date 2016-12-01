@@ -82,7 +82,7 @@ def clean_teens(name):
     name = name.replace('TEN ONE', 'ELEVEN')
     name = name.replace('TEN TWO', 'TWELVE')
     name = name.replace('TEN THREE', 'THIRTEEN')
-    name = name.replace('TEN FOUR', 'FORTEEN')
+    name = name.replace('TEN FOUR', 'FOURTEEN')
     name = name.replace('TEN FIVE', 'FIFTEEN')
     name = name.replace('TEN SIX', 'SIXTEEN')
     name = name.replace('TEN SEVEN', 'SEVENTEEN')

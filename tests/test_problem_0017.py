@@ -5,6 +5,7 @@ from hypothesis import assume, example, given
 
 from euler.lib.names import HugeInt, int_to_english
 from euler.lib.names import letter_count, MAX_INT, MIN_INT
+from euler.problems.problem_0017 import main as problem
 
 
 def test_zero():
@@ -27,7 +28,7 @@ def test_minus_zero():
         (11, 'ELEVEN'),
         (12, 'TWELVE'),
         (13, 'THIRTEEN'),
-        (14, 'FORTEEN'),
+        (14, 'FOURTEEN'),
         (15, 'FIFTEEN'),
         (16, 'SIXTEEN'),
         (17, 'SEVENTEEN'),
@@ -146,3 +147,9 @@ def test_example(integer, expected_count):
     count = letter_count(name)
 
     assert count == expected_count
+
+
+def test_answer():
+    answer = problem()
+
+    assert answer == 21124
