@@ -156,3 +156,9 @@ def int_to_english(integer):
     name = name.strip()
 
     return name
+
+
+def letter_count(name):
+    name = name.replace('-', '')
+    name = name.replace(' ', '')
+    return len(name)
