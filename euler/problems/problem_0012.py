@@ -27,7 +27,7 @@ from euler.lib import factors, triangular_numbers
 
 
 def main():
-    for i in triangular_numbers():
+    for i in triangular_numbers():  # pragma: no branch
         if len(list(factors(i))) > 500:
             return i
 

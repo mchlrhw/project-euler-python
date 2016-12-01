@@ -15,7 +15,7 @@ from ..lib import is_factor, product, pythagorean_triplet
 
 def main():
     target = 1000
-    for c in range(1, target):
+    for c in range(1, target):  # pragma: no branch
         t = pythagorean_triplet(c)
         s = sum(t)
         if s and is_factor(s, target):
